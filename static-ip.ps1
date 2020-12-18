@@ -10,7 +10,7 @@ if (-Not($WindowsPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole] "Adm
 # Check: netsh interface ip show addresses
 # without netsh help: Get-Command -Module NetTCPIP
 
-$targetDist = "Ubuntu"
+$targetDist = "Groovy"
 if (Get-NetIPAddress -InterfaceAlias "vEthernet (WSL)" -AddressFamily IPv4 | Where-Object { $_.IPAddress -eq "192.168.55.1" }) {
     Write-Output "-- Already binded?"
 } else {
