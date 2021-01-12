@@ -1,15 +1,15 @@
+Param(
+    [parameter(mandatory=$true)]$TargetUser,
+    [parameter(mandatory=$true)]$DistName,
+    [parameter(mandatory=$true)]$TargetDir
+)
+
 $WindowsPrincipal = [Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()
 if (-Not($WindowsPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))){
     Write-Output "Must be Administrator."
     Exit
 }
 $erroractionpreference = "stop"
-
-Param(
-    [parameter(mandatory=$true)]$TargetUser,
-    [parameter(mandatory=$true)]$DistName,
-    [parameter(mandatory=$true)]$TargetDir
-)
 
 $URL = "https://partner-images.canonical.com/core/groovy/current/ubuntu-groovy-core-cloudimg-amd64-root.tar.gz"
 $FileName = "Ubuntu.tar.gz"
