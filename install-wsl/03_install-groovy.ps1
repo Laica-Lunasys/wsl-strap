@@ -42,4 +42,4 @@ wsl -d $DistName passwd $TargetUser
 
 # Set default user
 Set-Location $PSScriptRoot
-.\99_set_user.ps1 $DistName $TargetUser
+..\utils\default-user.ps1 $DistName $TargetUser
