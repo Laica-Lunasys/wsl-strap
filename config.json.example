@@ -1,0 +1,10 @@
+{
+  "name": "Groovy",
+  "staticIP": "192.168.55.70",
+  "ports": [
+    22
+  ],
+  "services": [
+    "ssh"
+  ]
+}
