@@ -37,7 +37,7 @@ wsl -d $DistName -u root sed -i -E 's/# (ja_JP.UTF-8)/\1/' /etc/locale.gen
 wsl -d $DistName -u root locale-gen
 
 # Create User
-wsl -d $DistName useradd -m -s /bin/bash -g sudo $TargetUser
+wsl -d $DistName useradd -m -s /bin/bash -G sudo $TargetUser
 wsl -d $DistName passwd $TargetUser
 
 # Set default user
