@@ -23,4 +23,4 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------
 @ECHO OFF
-powershell -Command .\wsl-strap.ps1; Write-Output ':: Close after 3 seconds...'; sleep 3
+powershell -Command .\onStart.ps1

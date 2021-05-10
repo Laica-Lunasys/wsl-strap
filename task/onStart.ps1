@@ -7,6 +7,8 @@ if (-Not($WindowsPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole] "Adm
     Exit
 }
 
+Set-Location .\..
+
 # --- Load Config ---
 $config = Get-Content .\config.json | ConvertFrom-Json
 
@@ -24,22 +26,22 @@ if (Test-Path C:\Program` Files\VcXsrv\xlaunch.exe) {
     Write-Output ":: Starting VcXsrv @ $PSScriptRoot..."
     if (tasklist.exe | Select-String "vcxsrv.exe") {
         Write-Output ":: Stopping VcXsrv..."
-        taskkill /im vcxsrv.exe
+        taskkill /f /im vcxsrv.exe
         Start-Sleep 1
     }
     
-    C:\Program` Files\VcXsrv\xlaunch.exe -run $PSScriptRoot\x11\config.xlaunch
+    C:\Program` Files\VcXsrv\xlaunch.exe -run .\x11\config.xlaunch
 }
 
 # Static-IP
-powershell $PSScriptRoot\utils\static-ip.ps1 -DistName $name
+powershell .\utils\static-ip.ps1 -DistName $name
 
 # Enable Port forward
 if ($ports) {
     foreach ($port in $ports) {
-        powershell $PSScriptRoot\utils\port-forward.ps1 add $staticIP $port
+        powershell .\utils\port-forward.ps1 add $staticIP $port
     }
-    powershell $PSScriptRoot\utils\port-forward.ps1 show
+    powershell .\utils\port-forward.ps1 show
 }
 
 # Start service
@@ -48,3 +50,7 @@ if ($services) {
         wsl -d $name -u root service $service start
     }
 }
+
+# Wait...
+Write-Output ':: Close after 3 seconds...'
+Start-Sleep 3
