@@ -3,11 +3,13 @@ if (-Not($WindowsPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole] "Adm
     Write-Output "Must be Administrator."
     Exit
 }
+$erroractionpreference = "stop"
+Set-Location $PSScriptRoot
 
 Write-Output ":: Install WSL2..."
-mkdir C:\wsl-temp\
-Set-Location C:\wsl-temp
+mkdir .\tmp
+Set-Location .\tmp
 Invoke-WebRequest -Uri https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi -OutFile wsl_update_x64.msi -UseBasicParsing
 msiexec /i wsl_update_x64.msi /passive /norestart
 wsl --set-default-version 2
-# Remove-Item wsl_update_x64.msi
+Remove-Item wsl_update_x64.msi
