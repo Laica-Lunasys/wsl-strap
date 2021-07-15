@@ -21,6 +21,17 @@ $services = $config.services
 Write-Output ":: Distribution: $name"
 Write-Output ":: Forward ports: [$ports]"
 
+# Docker
+if (tasklist.exe | Select-String "Docker Desktop.exe") {
+    Write-Output ":: Restarting Docker..."
+    Start-Process -NoNewWindow -Wait "$Env:ProgramFiles\Docker\Docker\DockerCli.exe" '-Shutdown'
+    Start-Process -NoNewWindow -Wait "$Env:ProgramFiles\Docker\Docker\DockerCli.exe" '-SwitchLinuxEngine'
+}
+else {
+    Write-Output ":: Starting Docker..."
+    Start-Process -WindowStyle Hidden -Wait "$Env:ProgramFiles\Docker\Docker\Docker Desktop.exe"
+}
+
 # Start X Server
 if (Test-Path C:\Program` Files\VcXsrv\xlaunch.exe) {
     Write-Output ":: Starting VcXsrv @ $PSScriptRoot..."
