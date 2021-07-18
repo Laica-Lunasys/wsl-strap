@@ -40,13 +40,12 @@ if (-not($withoutDocker)) {
 
 # Start X Server
 if (Test-Path C:\Program` Files\VcXsrv\xlaunch.exe) {
-    Write-Output ":: Starting VcXsrv @ $PSScriptRoot..."
     if (tasklist.exe | Select-String "vcxsrv.exe") {
         Write-Output ":: Stopping VcXsrv..."
         taskkill /f /im vcxsrv.exe
         Start-Sleep 1
     }
-    
+    Write-Output ":: Starting VcXsrv @ $PSScriptRoot..."
     C:\Program` Files\VcXsrv\xlaunch.exe -run .\x11\config.xlaunch
 }
 
