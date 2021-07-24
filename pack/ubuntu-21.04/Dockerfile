@@ -1,5 +1,7 @@
 FROM ubuntu:21.04
 
+ENV DEBIAN_FRONTEND nointeractive
+
 RUN echo -n "" > /etc/motd
 
 # Initial setup
