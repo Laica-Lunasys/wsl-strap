@@ -40,7 +40,7 @@ docker rm ${tmp_container_name}
 Remove-Item -Force "${DistName}.tar"
 
 # Create User
-wsl -d $DistName useradd -m -s /bin/bash -G sudo $TargetUser
+wsl -d $DistName useradd -m $TargetUser
 wsl -d $DistName passwd $TargetUser
 
 # Set default user
