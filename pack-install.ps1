@@ -18,7 +18,7 @@ Set-Location .\pack\${PackName}
 # Make from docker image
 $docker_image = "wsl-strap/${DistName}"
 $tmp_container_name = "wsl-strap_tmp_${DistName}"
-docker build . -t $docker_image --progress plain
+docker build . -t $docker_image --progress plain --pull --no-cache
 if (!$?) {
     Write-Output "Failed to build docker image"
     exit 1
