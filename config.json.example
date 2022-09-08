@@ -1,10 +1,15 @@
 {
-  "name": "Groovy",
-  "staticIP": "192.168.55.70",
-  "ports": [
-    22
-  ],
-  "services": [
-    "ssh"
-  ]
+  "name": "penguin",
+  "staticIP": {
+    "enable": false,
+    "address": "192.168.55.70"
+  },
+  "x11": {
+    "enable": true
+  },
+  "init": {
+    "enable": true,
+    "as": "systemd",
+    "services": ["sshd"]
+  }
 }

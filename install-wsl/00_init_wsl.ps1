@@ -7,5 +7,6 @@ if (-Not($WindowsPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole] "Adm
 Write-Output ":: Enable feature..."
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+dism.exe /online /enable-feature /featurename:Microsoft-Hyper-V /all /norestart
 
 Write-Output "Step1 :: Complete, Please reboot."

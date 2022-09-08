@@ -1,7 +1,7 @@
 Param(
-    [parameter(mandatory=$true)]$PackName,
-    [parameter(mandatory=$true)]$TargetUser,
     [parameter(mandatory=$true)]$DistName,
+    [parameter(mandatory=$true)]$PackDir,
+    [parameter(mandatory=$true)]$TargetUser,
     [parameter(mandatory=$true)]$TargetDir
 )
 
@@ -13,34 +13,30 @@ Param(
 $erroractionpreference = "stop"
 
 Set-Location $PSScriptRoot
-Set-Location .\pack\${PackName}
 
-# Make from docker image
-$docker_image = "wsl-strap/${DistName}"
-$tmp_container_name = "wsl-strap_tmp_${DistName}"
-docker build . -t $docker_image --progress plain --pull --no-cache
+Write-Output ":: Importing tarball..."
+mkdir -Force $TargetDir
+wsl --import $DistName $TargetDir $PackDir
 if (!$?) {
-    Write-Output "Failed to build docker image"
+    Write-Output "Failed to import from package"
     exit 1
 }
-
-docker export $(docker create --name ${tmp_container_name} $docker_image) -o "${DistName}.tar"
-if (!$?) {
-    Write-Output "Failed to export docker image"
-    exit 1
-}
-
-wsl --import $DistName $TargetDir "${DistName}.tar"
-if (!$?) {
-    Write-Output "Failed to import from docker image"
-    exit 1
-}
-
-docker rm ${tmp_container_name}
-Remove-Item -Force "${DistName}.tar"
 
 # Create User
-wsl -d $DistName useradd -m $TargetUser
+Write-Output ":: Create user..."
+wsl -u root -d $DistName -- eval 'if [ "$(which useradd &> /dev/null; echo $?)" != 0 ]; then exit 1; fi'
+if ($?) {
+    wsl -u root -d $DistName useradd -m $TargetUser
+} else {
+    Write-Output "!! useradd command not found. try another..."
+    wsl -u root -d $DistName -- eval 'if [ "$(which adduser &> /dev/null; echo $?)" != 0 ]; then exit 1; fi'
+    if ($?) {
+        wsl -u root -d $DistName adduser -D $TargetUser 
+    } else {
+        Write-Output "E: Failed create user."
+        exit 1
+    }
+}
 wsl -d $DistName passwd $TargetUser
 
 # Set default user

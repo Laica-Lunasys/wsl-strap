@@ -1,6 +1,8 @@
-FROM debian:experimental
+FROM ubuntu:20.10
 
-# RUN echo -n "" > /etc/motd
+ENV DEBIAN_FRONTEND nointeractive
+
+RUN echo -n "" > /etc/motd
 
 # Initial setup
 RUN apt-get update && \
