@@ -12,8 +12,6 @@ Param(
 # }
 $erroractionpreference = "stop"
 
-Set-Location $PSScriptRoot
-
 Write-Output ":: Importing tarball..."
 mkdir -Force $TargetDir
 wsl --import $DistName $TargetDir $PackDir
@@ -38,7 +36,3 @@ if ($?) {
     }
 }
 wsl -d $DistName passwd $TargetUser
-
-# Set default user
-Set-Location $PSScriptRoot
-.\utils\default-user.ps1 $DistName $TargetUser
