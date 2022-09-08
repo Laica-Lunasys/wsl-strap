@@ -3,10 +3,11 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND nointeractive
 
 # Initial setup
+RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.list
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
     sudo nano wget curl iproute2 locales systemd \
-    neovim tmux zsh git python3 python3-pip nodejs npm zip htop golang
+    neovim tmux zsh git python3 python3-pip nodejs npm unzip htop golang make
 
 # Install WSL utility
 RUN npm install -g yarn wsl-open && \
