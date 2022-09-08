@@ -5,11 +5,11 @@ $TargetUserName = $env:UserName.replace('.', '-')
 
 Set-Location $PSScriptRoot
 
-if (-not(Test-Path -Path "$($env:USERPROFILE)\wsl")) {
-    mkdir $env:USERPROFILE\wsl
+if (-not(Test-Path -Path "$($env:USERPROFILE)\wsl\${DistributionName}")) {
+    mkdir ${env:USERPROFILE}\wsl\${DistributionName}
 }
 
-if (Test-Path -Path "$($env:USERPROFILE)\wsl\ext4.vhdx") {
+if (Test-Path -Path "$($env:USERPROFILE)\wsl\${DistributionName}\ext4.vhdx") {
     Write-Output "Seems already install..."
     exit 1
 }
@@ -20,7 +20,7 @@ powershell ..\pack-install.ps1 `
     -DistName $DistributionName `
     -PackDir ..\generated\${PackName}.tar `
     -TargetUser ${TargetUserName} `
-    -TargetDir ${env:USERPROFILE}\wsl
+    -TargetDir ${env:USERPROFILE}\wsl\${DistributionName}
 
 powershell ..\utils\default-user.ps1 `
     -DistributionName $DistributionName `
